@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const request = require("request")
 const mailchimp = require('@mailchimp/mailchimp_marketing');
+require("dotenv").config();
 
 
 const app= express();
@@ -23,18 +24,24 @@ app.get("/" , function(req , res){
     res.sendFile(__dirname + "/signup.html");
 })
 
+const apiKey = process.env.API_KEY
+
+const list_Id = process.env.LIST_ID
+
+const server = process.env.API_SERVER
+
 //defining config for mailchimp
-mailchimp.setConfig({
-    apiKey: "8c4589ea68418a6f0426d9cd31514b12-us12",
-    server: "us12"
-  });
+// mailchimp.setConfig({
+//     apiKey: "c98cb1e58a9f0475f3ce316fabb8ce2e-us12",
+//     server: "us12"
+//   });
 
 
 //required below to fetch the data from the user 
 app.use(bodyParser.urlencoded({extended : true}));
 
 app.post("/" , function(req , res){
-    const listId = "ae4f05ad47";
+    const listId = list_Id;
     const subscriber = {
          firstname : req.body.fname,
          lastname : req.body.lname,
